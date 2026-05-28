@@ -43,7 +43,7 @@
             return total;
         }
 
-        // Lógica Opción 1
+        // Lógica de la opción 1
         function calcularOpcion1() {
             const totalProduccion = parseFloat(document.getElementById('totalProduccion').value) || 0;
             const totalDescontado = calcularVolumenFilas('itemsOpcion1');
@@ -61,7 +61,7 @@
                 document.getElementById('restanteOp1').style.color = 'var(--primary)';
             }
 
-            // Calcular sobrante en la presentación seleccionada (Solo enteros)
+            // Calcular sobrante en la presentación seleccionada
             const volPresentacionRestante = parseFloat(document.getElementById('presentacionRestante').value);
             if (restante > 0) {
                 const unidadesEnteras = Math.floor(restante / volPresentacionRestante);
@@ -71,19 +71,19 @@
             }
         }
 
-        // Lógica Opción 2
+        // Lógica de la opción 2
         function calcularOpcion2() {
             const necesario = calcularVolumenFilas('itemsOpcion2');
             document.getElementById('necesarioOp2').innerText = necesario.toFixed(2);
 
             if (necesario > 0) {
-                // Redondear a la centena más cercana hacia arriba (Ej. 1690 -> 1700)
+
                 const sugerido = Math.ceil(necesario / 100) * 100;
                 document.getElementById('sugeridoOp2').innerText = sugerido;
 
                 // Calcular galones extras
                 const sobranteLitros = sugerido - necesario;
-                const galonesExtra = Math.floor(sobranteLitros / 3.8); // Solo unidades enteras
+                const galonesExtra = Math.floor(sobranteLitros / 3.8);
                 document.getElementById('galonesExtra').innerText = galonesExtra;
             } else {
                 document.getElementById('sugeridoOp2').innerText = '0';
