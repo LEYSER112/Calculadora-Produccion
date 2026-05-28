@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculadora de Producción | Envasado</title>
+</head>
+<body>
+
+    <header>
+        <h1>Calculadora de Producción y Envasado</h1>
+        <p>Gestión de presentaciones y cálculo de sobrantes</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Opción 1: Envasar Por Cantidad De Lote</h2>
+            <p>Ingresa el total de la producción para ir descontando cada una de las presentaciones.</p>
+            
+            <div class="form-group">
+                <label for="totalProduccion">Total de Producción (Litros):</label>
+                <input type="number" id="totalProduccion" placeholder="Ej. 500" oninput="calcularOpcion1()">
+            </div>
+
+            <div id="itemsOpcion1"></div>
+            <button class="btn-add" onclick="agregarFila('itemsOpcion1', calcularOpcion1)">+ Agregar Presentación</button>
+
+            <div class="results">
+                <p>Litros Descontados: <span id="descontadoOp1" class="highlight">0</span> L</p>
+                <p>Litros Restantes: <span id="restanteOp1" class="highlight">0</span> L</p>
+                <div id="alertaOp1" class="alert">¡ALERTA! Has superado el límite de producción.</div>
+                
+                <hr>
+                <label>Calcular restante en:</label>
+                <select id="presentacionRestante" onchange="calcularOpcion1()">
+                    <option value="3.8">Galón (3.8 L)</option>
+                    <option value="20">Cuñete (20 L)</option>
+                    <option value="1">Litro (1 L)</option>
+                    <option value="0.5">Medio Litro (0.5 L)</option>
+                    <option value="2">Dos Litros (2 L)</option>
+                    <option value="3">Tres Litros (3 L)</option>
+                    <option value="4">Cuatro Litros (4 L)</option>
+                    <option value="5">Cinco Litros (5 L)</option>
+                </select>
+                <p style="margin-top: 10px;">Saldrán aprox: <span id="calculoRestante" class="highlight">0</span> unidades enteras.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Opción 2: Proyectar La Producción</h2>
+            <p>Ingresa lo que necesitas envasar para poder calcular el lote sugerido .</p>
+
+            <div id="itemsOpcion2"></div>
+            <button class="btn-add" onclick="agregarFila('itemsOpcion2', calcularOpcion2)">+ Agregar Presentación</button>
+
+            <div class="results">
+                <p>Litros Necesarios Exactos: <span id="necesarioOp2" class="highlight">0</span> L</p>
+                <p>Producción Sugerida (Redondeada): <span id="sugeridoOp2" class="highlight">0</span> L</p>
+                <hr>
+                <p>El sobrante de la producción sugerida equivale a:</p>
+                <p><span id="galonesExtra" class="highlight">0</span> Galones extras aprox.</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
