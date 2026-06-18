@@ -339,7 +339,7 @@
             const pesoTon = document.getElementById('pesoTotalTon').innerText;
             
             let txt = `==================================================\n`;
-            txt += `          REPORTE DE DESPACHO - VIMACH S.A.S.     \n`;
+            txt += `          REPORTE DE DESPACHO .     \n`;
             txt += `==================================================\n`;
             txt += `Destino: ${bodega}\nFecha: ${new Date().toLocaleString()}\n`;
             txt += `--------------------------------------------------\n`;
