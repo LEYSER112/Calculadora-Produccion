@@ -1,129 +1,78 @@
-
-        :root {
-            --primary: #0056b3;
-            --secondary: #f4f7f6;
-            --danger: #dc3545;
-            --success: #28a745;
-            --text: #333;
-            --border: #ccc;
+  :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --primary: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --bg-input: #0f172a;
         }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); margin: 0; padding: 20px; }
+        header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        header h1 { margin: 0; color: var(--primary); font-size: 2rem; }
+        header p { margin: 5px 0 0 0; color: var(--text-muted); }
+
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 25px; max-width: 1400px; margin: 0 auto; }
+        @media (min-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr 1fr; }
+            .full-width-card { grid-column: span 2; }
         }
 
-        body {
-            background-color: var(--secondary);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-        }
+        .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 25px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); }
+        h2 { margin-top: 0; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        @media (min-width: 768px) {
-            .container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="number"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .row-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-
-        .row-item select { flex: 2; }
-        .row-item input { flex: 1; }
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .form-row .form-group { flex: 1; margin-bottom: 0; }
+        label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
         
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
+        input[type="number"], input[type="text"], select {
+            width: 100%; background-color: var(--bg-input); border: 1px solid var(--border); color: var(--text-light); padding: 12px; border-radius: 8px; font-size: 1rem;
         }
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
 
-        .btn-add {
-            background-color: var(--primary);
-            color: white;
-            width: 100%;
-            margin-bottom: 15px;
+        /* Buscador Inteligente */
+        #resultadosBusqueda {
+            position: absolute; top: 100%; left: 0; right: 0; background-color: var(--bg-card); border: 1px solid var(--primary);
+            border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto; z-index: 10; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
+        .sugerencia-item { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid var(--border); }
+        .sugerencia-item:hover { background-color: var(--border); color: var(--primary); }
 
-        .btn-add:hover { background-color: #004494; }
+        /* Barra de Progreso */
+        .progress-container { background-color: var(--bg-main); border-radius: 8px; height: 24px; width: 100%; overflow: hidden; margin: 15px 0; border: 1px solid var(--border); position: relative; }
+        .progress-bar { background-color: var(--primary); height: 100%; width: 0%; transition: width 0.4s ease, background-color 0.3s; }
+        .progress-text { position: absolute; width: 100%; text-align: center; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.85rem; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+        .badge-alert { background-color: var(--danger); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; display: none; margin-top: 10px; text-align: center; }
 
-        .btn-remove {
-            background-color: var(--danger);
-            color: white;
-            padding: 10px;
-        }
+        .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .dynamic-row select { flex: 2; }
+        .dynamic-row input { flex: 1; }
 
-        .btn-remove:hover { background-color: #c82333; }
+        button { padding: 12px 20px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background-color: var(--primary); color: #0f172a; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-success { background-color: var(--success); color: white; width: 100%; }
+        .btn-danger { background-color: var(--danger); color: white; }
+        .btn-warning { background-color: var(--warning); color: #0f172a; }
+        .btn-outline { background-color: transparent; border: 1px solid var(--border); color: var(--text-light); width: 100%; margin-bottom: 15px; }
+        .btn-outline:hover { background-color: var(--border); }
+        
+        .action-btns { display: flex; gap: 6px; }
+        .btn-action { padding: 8px 12px; font-size: 1rem; }
 
-        .results {
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
+        .results-box { background-color: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .results-box p { margin: 8px 0; display: flex; justify-content: space-between; }
+        .val-highlight { font-weight: bold; color: var(--primary); }
 
-        .alert {
-            color: var(--danger);
-            font-weight: bold;
-            display: none;
-            margin-top: 10px;
-        }
-
-        .highlight {
-            font-size: 1.2em;
-            color: var(--primary);
-            font-weight: bold;
-        }
+        .table-responsive { overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 12px; border-bottom: 1px solid var(--border); }
+        th { background-color: var(--bg-main); color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; }
+        .row-hidden { opacity: 0.4; background-color: rgba(0,0,0,0.2); text-decoration: line-through; }
