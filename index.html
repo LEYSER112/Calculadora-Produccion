@@ -8,107 +8,197 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-    <header>
-        <h1>CalcProd V2</h1>
-        <p>Sistema Integrado de Control de Envasado & Logística de Envíos — V2.2</p>
+   <header>
+        <h1>CalcProd V3</h1>
+        <p>Sistema Integrado de Control de Envasado & Logística de Envíos — V3</p>
     </header>
+    <div class="tab-container">
+        <button class="tab-btn active" onclick="mostrarModulo('modulo1', this)">
+            <i class="fa-solid fa-industry"></i> Por Producción Total
+        </button>
+        <button class="tab-btn" onclick="mostrarModulo('modulo2', this)">
+            <i class="fa-solid fa-flask"></i> Calcular Proyección
+        </button>
+        <button class="tab-btn" onclick="mostrarModulo('modulo3', this)">
+            <i class="fa-solid fa-truck-fast"></i> Módulo de Envíos
+        </button>
+    </div>
 
-    <div class="dashboard-grid">
+    <div id="modulo1" class="module-section active">
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-droplet"></i> Litros Totales de Producción</h3>
+            <input type="number" id="totalProduccion" placeholder="Ingresa los litros totales (Ej. 1500)" oninput="calcularOpcion1()">
+        </div>
 
         <div class="card">
-            <h2><i class="fa-solid fa-box-open"></i> Opción 1: Envasar Lote</h2>
-            <div class="form-group">
-                <label>Total Programado del Lote (Litros):</label>
-                <input type="number" id="totalProduccion" placeholder="Ej. 500" oninput="calcularOpcion1()">
-            </div>
-
-            <div class="progress-container">
-                <div id="progresoBarra" class="progress-bar"></div>
-                <div id="progresoTexto" class="progress-text">0% Asignado</div>
-            </div>
-            <div id="alertaExcesoOp1" class="badge-alert"><i class="fa-solid fa-triangle-exclamation"></i> ¡ALERTA! Se ha superado la capacidad del lote.</div>
-
-            <div id="itemsOpcion1"></div>
-            <button class="btn-outline" onclick="agregarFila('itemsOpcion1', calcularOpcion1)"><i class="fa-solid fa-plus"></i> Agregar Presentación</button>
-
-            <div class="results-box">
-                <p><span>Litros Asignados:</span> <span id="descontadoOp1" class="val-highlight">0.00 L</span></p>
-                <p><span>Litros Libres:</span> <span id="restanteOp1" class="val-highlight">0.00 L</span></p>
-                <hr style="border-color: var(--border);">
-                <div class="form-group" style="margin-top: 10px;">
-                    <label>Convertir Restante automático a:</label>
-                    <select id="presentacionRestante" onchange="calcularOpcion1()"></select>
+            <h3 class="card-title"><i class="fa-solid fa-box-open"></i> Agregar Presentaciones</h3>
+            <div class="form-row" style="align-items: center;">
+                <div class="form-group" style="flex: 3; margin: 0;">
+                    <select id="selectPresOp1"></select>
                 </div>
-                <p><span>Rendimiento Aproximado:</span> <span id="calculoRestante" class="val-highlight" style="color: var(--success);">0 unidades</span></p>
+                <div style="flex: 1;">
+                    <button class="btn-outline-primary" style="width: 100%;" onclick="agregarFilaOp1()"><i class="fa-solid fa-plus"></i> Agregar</button>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <label style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Presentaciones Agregadas</label>
+                <div id="contenedorItemsOp1"></div>
             </div>
         </div>
 
         <div class="card">
-            <h2><i class="fa-solid fa-chart-line"></i> Opción 2: Proyectar Producción</h2>
-            <div class="form-group">
-                <label>Calcular Sobrante en:</label>
-                <select id="presentacionSobranteOp2" onchange="calcularOpcion2()"></select>
+            <div class="progress-header">
+                <span>Progreso</span>
+                <span id="txtProgresoGeneral">0 / 0 lt</span>
+            </div>
+            <div class="progress-track">
+                <div id="barraOp1" class="progress-fill"></div>
+            </div>
+            <div class="progress-header" style="margin-top: -10px; margin-bottom: 10px;">
+                <span id="txtPorcentaje">0% usado</span>
+                <span id="txtRestanteFloat">Restante: 0 lt</span>
+            </div>
+            
+            <div id="alertaExcesoOp1" class="alert-box">
+                <i class="fa-solid fa-triangle-exclamation"></i> ¡ALERTA! El volumen asignado supera la producción total.
             </div>
 
-            <div id="itemsOpcion2"></div>
-            <button class="btn-outline" onclick="agregarFila('itemsOpcion2', calcularOpcion2)"><i class="fa-solid fa-plus"></i> Agregar Requerimiento</button>
-
-            <div class="results-box">
-                <p><span>Volumen Neto Requerido:</span> <span id="necesarioOp2" class="val-highlight">0.00 L</span></p>
-                <p><span>Sugerencia de Fabricación:</span> <span id="sugeridoOp2" class="val-highlight" style="color: var(--success);">0 L</span></p>
-                <hr style="border-color: var(--border);">
-                <p><span>Excedente Estimado:</span> <span id="sobranteUnidadesOp2" class="val-highlight">0 unidades</span></p>
+            <div class="summary-boxes" style="margin-top: 20px;">
+                <div class="summary-box">
+                    <span>Total</span>
+                    <strong id="boxTotal">0</strong>
+                    <span style="text-transform: lowercase;">litros</span>
+                </div>
+                <div class="summary-box box-blue">
+                    <span>Usado</span>
+                    <strong id="boxUsado">0</strong>
+                    <span style="text-transform: lowercase;">litros</span>
+                </div>
+                <div class="summary-box box-green">
+                    <span>Restante</span>
+                    <strong id="boxRestante">0</strong>
+                    <span style="text-transform: lowercase;">litros</span>
+                </div>
             </div>
         </div>
 
-        <div class="card full-width-card">
-            <h2><i class="fa-solid fa-truck-fast"></i> Módulo de Logística: Envíos para el Centro</h2>
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-arrow-right"></i> Calcular Restante en Presentación</h3>
+            <select id="presentacionRestante" onchange="calcularOpcion1()"></select>
+
+            <div class="result-green-card">
+                <div class="result-icon"><i class="fa-solid fa-cube"></i></div>
+                <div class="result-data">
+                    <h4 id="lblRestanteVerde">Restante en...</h4>
+                    <h2 id="valRestanteVerde">0 Unidades</h2>
+                    <p id="detallesRestanteVerde">Cálculo: 0 ÷ 0 = 0 unidades</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modulo2" class="module-section">
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-list-check"></i> Requerimientos de Envasado</h3>
+            <div class="form-row" style="align-items: center;">
+                <div class="form-group" style="flex: 3; margin: 0;">
+                    <select id="selectPresOp2"></select>
+                </div>
+                <div style="flex: 1;">
+                    <button class="btn-outline-primary" style="width: 100%;" onclick="agregarFilaOp2()"><i class="fa-solid fa-plus"></i> Agregar</button>
+                </div>
+            </div>
+            <div style="margin-top: 25px;">
+                <div id="contenedorItemsOp2"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-chart-pie"></i> Proyección Calculada (Intervalos de 100L)</h3>
+            <div class="summary-boxes" style="grid-template-columns: 1fr 1fr;">
+                <div class="summary-box">
+                    <span>Neto Requerido</span>
+                    <strong id="necesarioOp2">0 L</strong>
+                </div>
+                <div class="summary-box box-green">
+                    <span>Fabricación Sugerida</span>
+                    <strong id="sugeridoOp2">0 L</strong>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <label>Convertir Excedente automático a:</label>
+                <select id="presentacionSobranteOp2" onchange="calcularOpcion2()"></select>
+                <div class="result-green-card" style="margin-top: 15px;">
+                    <div class="result-icon"><i class="fa-solid fa-plus-minus"></i></div>
+                    <div class="result-data">
+                        <h4>Excedente Estimado</h4>
+                        <h2 id="sobranteUnidadesOp2">0 Unidades</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modulo3" class="module-section">
+        <div class="card">
+            <h3 class="card-title"><i class="fa-solid fa-boxes-packing"></i> Armar Despacho a Bodega</h3>
             
             <div class="form-row">
                 <div class="form-group">
-                    <label>Bodega de Destino:</label>
+                    <label>Bodega de Destino</label>
                     <select id="bodegaDestino">
                         <option value="Bodega 12">Bodega 12</option>
                         <option value="Bodega 13">Bodega 13</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Límite de Carga Máxima (Kg):</label>
+                    <label>Límite de Carga (Kg)</label>
                     <input type="number" id="limitePeso" placeholder="Opcional" oninput="calcularEnvio()">
+                </div>
+                <div class="form-group">
+                    <label>Ordenar Tabla</label>
+                    <select id="ordenTabla" onchange="ordenarTabla()">
+                        <option value="default">Orden de adición</option>
+                        <option value="pesoDesc">Mayor a Menor Peso</option>
+                        <option value="pesoAsc">Menor a Mayor Peso</option>
+                        <option value="cantDesc">Mayor a Menor Cantidad</option>
+                        <option value="cantAsc">Menor a Mayor Cantidad</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="form-row" style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
-                <div class="form-group" style="flex: 2;">
-                    <label>Buscar Producto de la Base de Datos:</label>
+            <div id="alertaExcesoPeso" class="alert-box">
+                <i class="fa-solid fa-triangle-exclamation"></i> ¡ALERTA! El peso total supera el límite de carga máxima permitido.
+            </div>
+
+            <div class="form-row" style="align-items: flex-end; margin-top: 15px;">
+                <div class="form-group search-container" style="flex: 3;">
+                    <label>Buscar Producto</label>
                     <div style="position: relative;">
-                        <input type="text" id="buscadorProductos" placeholder="Escribe la referencia o nombre..." oninput="filtrarProductos()" autocomplete="off">
-                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; right: 15px; top: 14px; color: var(--text-muted);"></i>
+                        <input type="text" id="buscadorProductos" placeholder="Detergente, Suavizante, Ref..." oninput="filtrarProductos()" autocomplete="off">
+                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; right: 15px; top: 16px; color: var(--text-muted);"></i>
                     </div>
                     <div id="resultadosBusqueda"></div>
                     <input type="hidden" id="productoSeleccionadoIndex">
                 </div>
                 <div class="form-group" style="flex: 1;">
-                    <label>Cantidad:</label>
-                    <input type="number" id="cantidadEnvio" min="1" value="1">
-                </div>
-                <div class="form-group" style="flex: 0; display: flex; align-items: flex-end;">
-                    <button class="btn-primary" onclick="agregarProductoAEnvio()"><i class="fa-solid fa-check"></i> Agregar</button>
+                    <button class="btn-outline-primary" style="width: 100%; padding: 14px;" onclick="agregarProductoAEnvio()">
+                        <i class="fa-solid fa-check"></i> Añadir
+                    </button>
                 </div>
             </div>
-            
-            <div id="alertaExcesoPeso" class="badge-alert"><i class="fa-solid fa-triangle-exclamation"></i> ¡ALERTA! El peso total supera el límite máximo permitido.</div>
 
-            <div class="table-responsive">
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Ref.</th>
                             <th>Producto</th>
                             <th>Presentación</th>
-                            <th>Cant.</th>
-                            <th>Peso (Kg)</th>
+                            <th>Ref</th>
+                            <th style="text-align: center;">Cant.</th>
+                            <th style="text-align: right;">Peso Total</th>
                             <th style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
@@ -116,17 +206,26 @@
                 </table>
             </div>
 
-            <div class="form-row" style="margin-top: 20px; align-items: center;">
-                <div class="results-box" style="flex: 2; margin-top: 0; display: flex; gap: 30px;">
-                    <p style="flex: 1; margin:0;"><span>Total Neto:</span> <span id="pesoTotalKg" class="val-highlight">0.00 Kg</span></p>
-                    <p style="flex: 1; margin:0;"><span>Toneladas:</span> <span id="pesoTotalTon" class="val-highlight">0.00 t</span></p>
+            <div class="form-row" style="margin-top: 30px; align-items: center;">
+                <div class="summary-boxes" style="flex: 2; grid-template-columns: 1fr 1fr;">
+                    <div class="summary-box box-blue">
+                        <span>Peso Neto Total</span>
+                        <strong id="pesoTotalKg">0.00 Kg</strong>
+                    </div>
+                    <div class="summary-box">
+                        <span>Toneladas</span>
+                        <strong id="pesoTotalTon">0.00 t</strong>
+                    </div>
                 </div>
-                <div style="flex: 1;">
-                    <button class="btn-success" onclick="generarArchivoTxt()"><i class="fa-solid fa-file-arrow-down"></i> Guardar y Generar TXT</button>
+                <div style="flex: 1; padding-left: 20px;">
+                    <button class="btn-success" style="height: 100%; font-size: 1.1rem;" onclick="generarPDF()">
+                        <i class="fa-solid fa-file-pdf"></i> Generar PDF
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
