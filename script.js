@@ -1,4 +1,4 @@
-       const presentacionesGenerales = [
+      const presentacionesGenerales = [
             { nombre: "Galón", volumen: 3.8 }, { nombre: "Cuñete", volumen: 20 },
             { nombre: "Litro", volumen: 1 }, { nombre: "Medio litro", volumen: 0.5 },
             { nombre: "Dos litros", volumen: 2 }, { nombre: "Tres litros", volumen: 3 },
