@@ -98,3 +98,53 @@
         ::-webkit-scrollbar-track { background: var(--bg-main); border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ==========================================
+   DISEÑO RESPONSIVE (Móviles y Tablets)
+   ========================================== */
+@media (max-width: 768px) {
+    /* 1. Arreglar las 3 opciones (Pestañas) */
+    .tab-container {
+        flex-direction: column; /* Apila los botones uno sobre otro */
+        gap: 10px;
+    }
+
+    /* 2. Formularios y recuadros muy pequeños */
+    .form-row {
+        flex-direction: column; /* Apila los inputs en lugar de ponerlos lado a lado */
+        gap: 15px;
+    }
+    
+    /* Forzar que los inputs y botones ocupen todo el ancho en móvil */
+    .form-row .form-group, 
+    .form-row > div {
+        width: 100% !important;
+        flex: none !important;
+    }
+
+    /* 3. Cajas de resumen apiladas para que no se salgan del recuadro */
+    .summary-boxes {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+    }
+
+    /* 4. Solución a la tabla angosta y el número de cantidad invisible */
+    .table-container {
+        overflow-x: auto; /* Habilita el scroll horizontal solo en la tabla */
+        -webkit-overflow-scrolling: touch; /* Scroll suave en móviles */
+    }
+    
+    table {
+        min-width: 700px; /* Obliga a la tabla a mantener un ancho decente. Si la pantalla es más pequeña, el usuario hará scroll lateral sin dañar el diseño */
+    }
+    
+    /* Asegurar que el input de cantidad mantenga su tamaño */
+    .input-inline {
+        width: 80px; 
+        min-width: 80px;
+    }
+
+    /* Ajuste de botones en el módulo 1 y 2 */
+    button {
+        width: 100%;
+    }
+}
