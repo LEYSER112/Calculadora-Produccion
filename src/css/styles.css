@@ -40,6 +40,18 @@ label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bott
 input[type="number"], input[type="text"], select { width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-light); padding: 14px; border-radius: 8px; font-size: 1rem; transition: border 0.2s; }
 input:focus, select:focus { outline: none; border-color: var(--primary); }
 
+input[type="date"] {
+    width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-light);
+    padding: 14px; border-radius: 8px; font-size: 1rem; transition: border 0.2s;
+    color-scheme: dark; /* hace que el selector nativo del navegador use tema oscuro */
+    cursor: pointer;
+}
+input[type="date"]:focus { outline: none; border-color: var(--primary); }
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+}
+
 .added-item { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 10px; }
 .item-info strong { display: block; font-size: 1.1rem; }
 .item-info small { color: var(--text-muted); }
@@ -87,7 +99,7 @@ button { padding: 14px 20px; border: none; border-radius: 8px; font-size: 1rem; 
 .result-data p { margin: 0; color: var(--text-muted); font-size: 0.85rem; }
 
 .search-container { position: relative; }
-#resultadosBusqueda { position: absolute; top: 100%; left: 0; right: 0; background-color: var(--bg-input); border: 1px solid var(--border); border-radius: 0 0 8px 8px; max-height: 300px; overflow-y: auto; z-index: 20; display: none; box-shadow: 0 10px 15px rgba(0,0,0,0.5); }
+#resultadosBusqueda, #resultadosProductoOp1 { position: absolute; top: 100%; left: 0; right: 0; background-color: var(--bg-input); border: 1px solid var(--border); border-radius: 0 0 8px 8px; max-height: 300px; overflow-y: auto; z-index: 20; display: none; box-shadow: 0 10px 15px rgba(0,0,0,0.5); }
 .sugerencia-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
 .sugerencia-item:hover { background-color: rgba(56, 189, 248, 0.1); }
 .sugerencia-icon { color: var(--primary); font-size: 1.2rem; }

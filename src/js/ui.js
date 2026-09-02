@@ -25,36 +25,47 @@ export function mostrarModulo(idModulo, btnElement) {
 export function agregarFilaOp1() {
     const idx = document.getElementById('selectPresOp1').value;
     const pres = State.presentacionesGenerales[idx];
-    State.itemsOp1.push({ nombre: pres.nombre, volumen: pres.volumen, columnaSheet: pres.columnaSheet, cantidad: "" });
+    State.itemsOp1.push({ nombre: pres.nombre, volumen: pres.volumen, columnaSheet: pres.columnaSheet, cantidad: "", cliente: "" });
     renderItemsOp1();
 }
 
-// ---- Selector de clientes GLOBAL (uno solo para toda la producción) ----
-export function renderClientesGlobal() {
-    const panel = document.getElementById('panelClientesGlobal');
-    if (!panel) return;
-    panel.innerHTML = State.clientesDisponibles.length === 0
-        ? `<div style="color: var(--text-muted); font-size: 0.85rem; padding: 4px;">Sin clientes cargados</div>`
-        : State.clientesDisponibles.map(c => `
-            <label class="cliente-check">
-                <input type="checkbox" value="${c}">
-                ${c}
-            </label>`).join('');
-    panel.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-        chk.addEventListener('change', actualizarLabelClientesGlobal);
-    });
+// Autocompletado del campo "Producto" (Módulo 1), usando la lista de
+// productos de "Hoja1" (columna A) — independiente del catálogo del
+// módulo de Envíos — para evitar nombres repetidos o mal escritos.
+export function filtrarProductosOp1() {
+    const input = document.getElementById('inputProductoOp1').value.toLowerCase().trim();
+    const caja = document.getElementById('resultadosProductoOp1');
+    caja.innerHTML = '';
+
+    if (input.length < 1) {
+        caja.style.display = 'none';
+        return;
+    }
+
+    const coincidencias = State.productosDisponibles.filter(n => n.toLowerCase().includes(input));
+
+    if (coincidencias.length > 0) {
+        caja.style.display = 'block';
+        coincidencias.slice(0, 10).forEach(nombre => {
+            const div = document.createElement('div');
+            div.className = 'sugerencia-item';
+            div.innerHTML = `
+                <div class="sugerencia-icon"><i class="fa-solid fa-flask"></i></div>
+                <div class="sugerencia-text"><strong>${nombre}</strong></div>
+            `;
+            div.onclick = () => {
+                document.getElementById('inputProductoOp1').value = nombre;
+                caja.style.display = 'none';
+            };
+            caja.appendChild(div);
+        });
+    } else {
+        caja.style.display = 'none';
+    }
 }
 
-function actualizarLabelClientesGlobal() {
-    const seleccionados = Array.from(document.querySelectorAll('#panelClientesGlobal input:checked')).map(c => c.value);
-    document.getElementById('lblClientesGlobal').innerText = seleccionados.length ? seleccionados.join(', ') : 'Seleccionar clientes';
-}
-
-export function toggleClientesGlobalPanel() {
-    const panel = document.getElementById('panelClientesGlobal');
-    const abierto = panel.style.display === 'block';
-    document.querySelectorAll('.clientes-panel').forEach(p => p.style.display = 'none');
-    panel.style.display = abierto ? 'none' : 'block';
+function actualizarClienteOp1(index, valor) {
+    State.itemsOp1[index].cliente = valor;
 }
 
 export function actualizarCantOp1(index, valor) {
@@ -82,7 +93,10 @@ function renderItemsOp1() {
     cont.innerHTML = '';
     State.itemsOp1.forEach((item, i) => {
         const cantCalculo = parseFloat(item.cantidad) || 0;
-        
+        const opcionesClientes = State.clientesDisponibles.map(c =>
+            `<option value="${c}" ${item.cliente === c ? 'selected' : ''}>${c}</option>`
+        ).join('');
+
         const div = document.createElement('div');
         div.className = 'added-item';
         div.innerHTML = `
@@ -90,6 +104,10 @@ function renderItemsOp1() {
             <div class="item-controls">
                 <input type="number" min="0" placeholder="0" value="${item.cantidad}" id="input-op1-${i}">
                 <span id="vol-calc-op1-${i}" style="color: var(--text-muted); font-size: 0.9rem; min-width: 60px;">= ${(item.volumen * cantCalculo).toFixed(1)} lt</span>
+                <select id="cliente-op1-${i}" style="max-width: 160px;">
+                    <option value="">Sin cliente</option>
+                    ${opcionesClientes}
+                </select>
                 <button class="btn-danger-icon" id="del-op1-${i}"><i class="fa-solid fa-trash-can"></i></button>
             </div>
         `;
@@ -97,6 +115,7 @@ function renderItemsOp1() {
 
         // Listeners
         div.querySelector(`#input-op1-${i}`).addEventListener('input', (e) => actualizarCantOp1(i, e.target.value));
+        div.querySelector(`#cliente-op1-${i}`).addEventListener('change', (e) => actualizarClienteOp1(i, e.target.value));
         div.querySelector(`#del-op1-${i}`).addEventListener('click', () => eliminarItemOp1(i));
     });
     calcularOpcion1();
@@ -169,7 +188,7 @@ export function agregarRestanteComoLinea() {
 
     State.itemsOp1.push({
         nombre: pres.nombre, volumen: pres.volumen, columnaSheet: pres.columnaSheet,
-        cantidad: unidades
+        cantidad: unidades, cliente: ""
     });
     renderItemsOp1();
 }

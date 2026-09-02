@@ -1,18 +1,19 @@
-import { cargarDatosDrive, cargarClientes } from './state.js';
+import { cargarDatosDrive, cargarClientes, cargarProductos } from './state.js';
 import { generarPDF } from './pdf.js';
 import { guardarProduccion } from './sheetProduccion.js';
 import { 
     inicializarSelectores, mostrarModulo, agregarFilaOp1, calcularOpcion1,
     agregarFilaOp2, calcularOpcion2, agregarProductoAEnvio, 
     ordenarTabla, calcularEnvio, filtrarProductos, agregarRestanteComoLinea,
-    renderClientesGlobal, toggleClientesGlobalPanel
+    filtrarProductosOp1
 } from './ui.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
     inicializarSelectores();
     await cargarDatosDrive();
     await cargarClientes();
-    renderClientesGlobal();
+    await cargarProductos();
+    document.getElementById('fechaProduccion').value = new Date().toISOString().slice(0, 10);
     calcularOpcion1();
 
     // Eventos de Pestañas
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById('presentacionRestante').addEventListener('change', calcularOpcion1);
     document.getElementById('btnGuardarProduccion').addEventListener('click', guardarProduccion);
     document.getElementById('btnAgregarRestante').addEventListener('click', agregarRestanteComoLinea);
-    document.getElementById('btnClientesGlobal').addEventListener('click', (e) => { e.stopPropagation(); toggleClientesGlobalPanel(); });
+    document.getElementById('inputProductoOp1').addEventListener('input', filtrarProductosOp1);
 
     // Módulo 2
     document.getElementById('btnAgregarOp2').addEventListener('click', agregarFilaOp2);
@@ -47,12 +48,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (e.target.id !== 'buscadorProductos') {
             document.getElementById('resultadosBusqueda').style.display = 'none';
         }
-    });
-
-    // Cerrar el panel de selección de clientes si se hace clic fuera de él
-    document.addEventListener('click', e => {
-        if (!e.target.closest('.cliente-multiselect')) {
-            document.querySelectorAll('.clientes-panel').forEach(p => p.style.display = 'none');
+        if (e.target.id !== 'inputProductoOp1') {
+            document.getElementById('resultadosProductoOp1').style.display = 'none';
         }
     });
 });

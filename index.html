@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Producción y Despacho | V4</title>
+    <title>Panel de Producción y Despacho | V4.1</title>
     <link rel="stylesheet" href="./src/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
    <header>
-        <h1>CalcProd V4</h1>
-        <p>Sistema Integrado de Control de Envasado & Logística de Envíos — V4</p>
+        <h1>CalcProd V4.1</h1>
+        <p>Sistema Integrado de Control de Envasado & Logística de Envíos — V3</p>
     </header>
      <div class="tab-container">
         <button class="tab-btn active" data-target="modulo1">
@@ -31,9 +31,10 @@
             <input type="number" id="totalProduccion" min="0" placeholder="Ingresa los litros totales (Ej. 1500)">
 
             <div class="form-row" style="margin-top: 15px;">
-                <div class="form-group">
+                <div class="form-group search-container">
                     <label>Producto</label>
-                    <input type="text" id="inputProductoOp1" placeholder="Ej. Limpiador Multiusos">
+                    <input type="text" id="inputProductoOp1" placeholder="Escribe para buscar en el catálogo..." autocomplete="off">
+                    <div id="resultadosProductoOp1"></div>
                 </div>
                 <div class="form-group">
                     <label>Turno</label>
@@ -47,18 +48,18 @@
 
             <div class="form-row" style="align-items: flex-start;">
                 <div class="form-group">
-                    <label>Cliente(s)</label>
-                    <div class="cliente-multiselect" style="width: 100%;">
-                        <button type="button" class="btn-outline-primary btn-clientes" id="btnClientesGlobal" style="width: 100%; justify-content: flex-start;">
-                            <i class="fa-solid fa-users"></i> <span id="lblClientesGlobal">Seleccionar clientes</span>
-                        </button>
-                        <div class="clientes-panel" id="panelClientesGlobal"></div>
-                    </div>
+                    <label>Fecha</label>
+                    <input type="date" id="fechaProduccion">
                 </div>
                 <div class="form-group">
-                    <label>Descripción (opcional)</label>
-                    <input type="text" id="descripcionGlobal" placeholder="Ej. de los 300 galones, 60 son de X y el resto de PV">
+                    <label>Lote</label>
+                    <input type="text" id="loteProduccion" placeholder="Ej. 1340">
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label>Descripción (opcional)</label>
+                <input type="text" id="descripcionGlobal" placeholder="Notas generales de esta producción">
             </div>
         </div>
 
@@ -75,6 +76,8 @@
             
             <div style="margin-top: 25px;">
                 <label style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Presentaciones Agregadas</label>
+                <small style="color: var(--text-muted); display: block; margin-bottom: 10px;">
+                </small>
                 <div id="contenedorItemsOp1"></div>
             </div>
         </div>
