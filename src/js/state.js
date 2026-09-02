@@ -19,7 +19,7 @@ export const State = {
 
     // ---- NUEVO: registro de producción (bitácora hacia el Sheets) ----
     // ⚠️ Reemplaza esta URL por la que te entregue el despliegue de tu Apps Script (ver instrucciones aparte).
-    urlGuardarProduccion: 'https://script.google.com/macros/s/TU_ID_DE_DESPLIEGUE/exec',
+    urlGuardarProduccion: 'https://script.google.com/macros/s/AKfycbzHA2FfjsmUv-IJZ-wlBPItNZyKqcTCZy9tChkTQvOuos9Yli96AfdSLFvCdw34wDk/exec',
     ordenColumnasSheet: [
         "ID Producción","Fecha","Turno","Producto","Lote","Cantidad producida","Cliente","Descripción","Mes","Año",
         "30ml","60ml","120 ml","240 ml","250ml","300ml","500 ml","800 ml",
