@@ -23,11 +23,13 @@ function generarIdProduccion(lote, fechaISO) {
 
 // Agrupa los items agregados en Módulo 1 por cliente (uno por línea).
 // Los items sin cliente asignado caen en el grupo "" (producción sin repartir).
+// Toda presentación que se haya agregado a la lista se guarda con su
+// cantidad tal cual (incluyendo 0 si se dejó así) — solo se omiten las
+// presentaciones que nunca se agregaron, para que esas queden vacías.
 function agruparPorCliente(items) {
     const grupos = {};
     items.forEach(item => {
         const cant = parseFloat(item.cantidad) || 0;
-        if (cant <= 0) return; // ignora líneas vacías
         const clave = item.cliente || "";
         if (!grupos[clave]) grupos[clave] = {};
         grupos[clave][item.columnaSheet] = (grupos[clave][item.columnaSheet] || 0) + cant;
@@ -70,7 +72,7 @@ function construirFilas() {
             "Mes": mes,
             "Año": anio
         };
-        State.presentacionesGenerales.forEach(p => { fila[p.columnaSheet] = 0; });
+        State.presentacionesGenerales.forEach(p => { fila[p.columnaSheet] = ""; });
         Object.entries(grupos[cliente]).forEach(([col, cant]) => { fila[col] = cant; });
         return fila;
     });
