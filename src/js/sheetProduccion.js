@@ -79,33 +79,17 @@ function construirFilas() {
 }
 
 async function enviarFila(fila) {
-    // Límite de espera: si Apps Script se demora demasiado (ej. se quedó
-    // "dormido" o hay muchas escrituras encoladas), se corta a los 25s con
-    // un error claro, en vez de quedarse colgado sin avisar nada.
-    const controlador = new AbortController();
-    const timeoutId = setTimeout(() => controlador.abort(), 25000);
-
-    try {
-        // Nota: Apps Script Web Apps no manejan bien el preflight CORS con
-        // 'Content-Type: application/json', por eso se usa text/plain aquí.
-        const res = await fetch(State.urlGuardarProduccion, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(fila),
-            signal: controlador.signal
-        });
-        if (!res.ok) throw new Error(`Error del servidor (${res.status})`);
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "Error desconocido al guardar.");
-        return data;
-    } catch (err) {
-        if (err.name === 'AbortError') {
-            throw new Error("El Sheets tardó demasiado en responder (más de 25s). Verifica si el dato quedó guardado antes de reintentar.");
-        }
-        throw err;
-    } finally {
-        clearTimeout(timeoutId);
-    }
+    // Nota: Apps Script Web Apps no manejan bien el preflight CORS con
+    // 'Content-Type: application/json', por eso se usa text/plain aquí.
+    const res = await fetch(State.urlGuardarProduccion, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(fila)
+    });
+    if (!res.ok) throw new Error(`Error del servidor (${res.status})`);
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "Error desconocido al guardar.");
+    return data;
 }
 
 export async function guardarProduccion() {
