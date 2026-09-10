@@ -10,7 +10,9 @@ import {
 
 document.addEventListener("DOMContentLoaded", async () => {
     inicializarSelectores();
-    await Promise.all([cargarDatosDrive(), cargarClientes(), cargarProductos()]);
+    await cargarDatosDrive();
+    await cargarClientes();
+    await cargarProductos();
     document.getElementById('fechaProduccion').value = new Date().toISOString().slice(0, 10);
     calcularOpcion1();
 
