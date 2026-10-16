@@ -1,7 +1,7 @@
 export const State = {
     presentacionesGenerales: [
         { nombre: "Galón", volumen: 3.8, columnaSheet: "3,8 Lt" }, { nombre: "Cuñete", volumen: 20, columnaSheet: "20 Lt" },
-        { nombre: "Litro", volumen: 1, columnaSheet: "1 Lt" }, { nombre: "Medio litro", volumen: 0.5, columnaSheet: "500 ml" },
+        { nombre: "Litro", volumen: 1, columnaSheet: "1 Lt" }, { nombre: "500 Val", volumen: 0.5, columnaSheet: "500 ml" },
         { nombre: "Dos litros", volumen: 2, columnaSheet: "2 Lt" }, { nombre: "Tres litros", volumen: 3, columnaSheet: "3 Lt" },
         { nombre: "Cuatro litros", volumen: 4, columnaSheet: "4 Lt" }, { nombre: "Cinco litros", volumen: 5, columnaSheet: "5lt" },
         { nombre: "30 ML", volumen: 0.03, columnaSheet: "30ml" }, { nombre: "60 ML", volumen: 0.06, columnaSheet: "60ml" },
