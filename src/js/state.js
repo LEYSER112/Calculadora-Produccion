@@ -9,7 +9,8 @@ export const State = {
     { nombre: "500 Rep", volumen: 0.5, columnaSheet: "500 rep" },
     { nombre: "500 Val", volumen: 0.5, columnaSheet: "500 val" },
     { nombre: "800 ML", volumen: 0.800, columnaSheet: "800 ml" },
-    { nombre: "Litro", volumen: 1, columnaSheet: "1 Lt" },
+    { nombre: "Litro Rep", volumen: 1, columnaSheet: "1 rep" },
+    { nombre: "Litro Val", volumen: 1, columnaSheet: "1 val" },
     { nombre: "Dos litros", volumen: 2, columnaSheet: "2 Lt" },
     { nombre: "Tres litros", volumen: 3, columnaSheet: "3 Lt" },
     { nombre: "Galón", volumen: 3.8, columnaSheet: "3,8 Lt" },
@@ -31,8 +32,7 @@ export const State = {
     urlGuardarProduccion: 'https://script.google.com/macros/s/AKfycbzHA2FfjsmUv-IJZ-wlBPItNZyKqcTCZy9tChkTQvOuos9Yli96AfdSLFvCdw34wDk/exec',
     ordenColumnasSheet: [
         "ID Producción","Fecha","Turno","Producto","Lote","Cantidad producida","Cliente","Descripción","Mes","Año",
-        "30ml","60ml","120 ml","240 ml","250ml","300ml","500 rep", "500 val","800 ml",
-        "1 Lt","2 Lt","3 Lt","3,8 Lt","4 Lt","5lt","20 Lt","200 Lt"
+        "30ml","60ml","120 ml","240 ml","250ml","300ml","500 rep", "500 val","800 ml","1 rep","1 val","2 Lt","3 Lt","3,8 Lt","4 Lt","5lt","20 Lt","200 Lt"
     ]
 };
 
