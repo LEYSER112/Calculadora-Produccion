@@ -23,7 +23,7 @@ export const State = {
     urlGuardarProduccion: 'https://script.google.com/macros/s/AKfycbzHA2FfjsmUv-IJZ-wlBPItNZyKqcTCZy9tChkTQvOuos9Yli96AfdSLFvCdw34wDk/exec',
     ordenColumnasSheet: [
         "ID Producción","Fecha","Turno","Producto","Lote","Cantidad producida","Cliente","Descripción","Mes","Año",
-        "30ml","60ml","120 ml","240 ml","250ml","300ml","500 ml","800 ml",
+        "30ml","60ml","120 ml","240 ml","250ml","300ml","500 rep", "500 val","800 ml",
         "1 Lt","2 Lt","3 Lt","3,8 Lt","4 Lt","5lt","20 Lt","200 Lt"
     ]
 };
